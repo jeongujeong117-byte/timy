@@ -1021,7 +1021,10 @@ html&gt;body{padding:0}&lt;/style&gt;
           &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;시작 시간&lt;/span&gt;&lt;button type=&quot;button&quot;&gt;오전 10시 &lt;b&gt;⌄&lt;/b&gt;&lt;/button&gt;&lt;/label&gt;
           &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;종료 시간&lt;/span&gt;&lt;button type=&quot;button&quot;&gt;오후 10시 &lt;b&gt;⌄&lt;/b&gt;&lt;/button&gt;&lt;/label&gt;
         &lt;/div&gt;
-        &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;기타 정보 &lt;em&gt;선택&lt;/em&gt;&lt;/span&gt;&lt;input placeholder=&quot;장소나 준비물을 적어주세요&quot; /&gt;&lt;/label&gt;
+        &lt;div class=&quot;sv2-detail-row&quot;&gt;
+          &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;예상 소요 시간&lt;/span&gt;&lt;span class=&quot;sv2-number-field&quot;&gt;&lt;input type=&quot;number&quot; inputmode=&quot;numeric&quot; min=&quot;1&quot; step=&quot;1&quot; value=&quot;2&quot; aria-label=&quot;예상 소요 시간&quot; /&gt;&lt;b&gt;시간&lt;/b&gt;&lt;/span&gt;&lt;/label&gt;
+          &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;기타 정보 &lt;em&gt;선택&lt;/em&gt;&lt;/span&gt;&lt;input placeholder=&quot;장소나 준비물을 적어주세요&quot; /&gt;&lt;/label&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;카카오톡으로 링크 공유하기&lt;/button&gt;&lt;/div&gt;
     &lt;/section&gt;
@@ -1127,6 +1130,10 @@ html&gt;body{padding:0}&lt;/style&gt;
   .sv2-calendar button.is-date-selected.sv2-sun,.sv2-calendar button.is-date-selected.sv2-sat { color:#111; }
   .sv2-time-range { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .sv2-time-range .sv2-field { margin-bottom:14px; }
+  .sv2-detail-row { display:grid; grid-template-columns:118px 1fr; gap:10px; }
+  .sv2-field &gt; .sv2-number-field { position:relative; display:block; margin-bottom:0; }
+  .sv2-number-field input { padding-right:42px; }
+  .sv2-number-field b { position:absolute; right:13px; top:50%; transform:translateY(-50%); color:var(--sv2-sub); font-size:12px; font-weight:400; pointer-events:none; }
   .sv2-bottom { position:absolute; z-index:4; left:0; right:0; bottom:0; padding:10px 20px 18px; background:linear-gradient(to bottom,rgba(255,255,255,0),#FFF 24%); }
   .sv2-primary,.sv2-calendar-add,.sv2-secondary { width:100%; height:56px; border-radius:14px; font-size:17px; line-height:1.4; font-weight:600; }
   .sv2-primary { border:0; background:var(--sv2-action); color:#FFF !important; box-shadow:inset 0 0 0 1px rgba(17,17,17,.08); }
