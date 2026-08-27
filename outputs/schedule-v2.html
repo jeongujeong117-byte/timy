@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>일정 조율 앱 모바일 UI v2</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="일정 조율 앱 모바일 UI v2" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;일정 조율 앱 모바일 UI v2&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  display: flex;
+  height: 6px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 6px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;schedule-v2&quot;&gt;
+  &lt;div class=&quot;sv2-switcher&quot; role=&quot;tablist&quot; aria-label=&quot;화면 선택&quot;&gt;
+    &lt;button type=&quot;button&quot; role=&quot;tab&quot; aria-selected=&quot;true&quot; data-screen=&quot;create&quot;&gt;개설&lt;/button&gt;
+    &lt;button type=&quot;button&quot; role=&quot;tab&quot; aria-selected=&quot;false&quot; data-screen=&quot;join&quot;&gt;참여&lt;/button&gt;
+    &lt;button type=&quot;button&quot; role=&quot;tab&quot; aria-selected=&quot;false&quot; data-screen=&quot;host&quot;&gt;결과 · 주최자&lt;/button&gt;
+    &lt;button type=&quot;button&quot; role=&quot;tab&quot; aria-selected=&quot;false&quot; data-screen=&quot;confirm&quot;&gt;확정 팝업&lt;/button&gt;
+    &lt;button type=&quot;button&quot; role=&quot;tab&quot; aria-selected=&quot;false&quot; data-screen=&quot;guest&quot;&gt;결과 · 참여자&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;sv2-stage&quot;&gt;
+    &lt;section class=&quot;sv2-phone is-active&quot; data-panel=&quot;create&quot; aria-label=&quot;약속 만들기 화면&quot;&gt;
+      &lt;div class=&quot;sv2-glow&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;sv2-create-content&quot;&gt;
+        &lt;h1&gt;약속 만들기&lt;/h1&gt;
+        &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;모임 이름&lt;/span&gt;&lt;input value=&quot;금요일 저녁 모임&quot; /&gt;&lt;/label&gt;
+        &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;주최자 이름&lt;/span&gt;&lt;input value=&quot;참여1&quot; /&gt;&lt;/label&gt;
+        &lt;section class=&quot;sv2-date-section&quot; aria-label=&quot;날짜 선택&quot;&gt;
+          &lt;div class=&quot;sv2-section-label&quot;&gt;날짜 선택&lt;/div&gt;
+          &lt;div class=&quot;sv2-month-row&quot;&gt;&lt;button type=&quot;button&quot; aria-label=&quot;이전 달&quot;&gt;‹&lt;/button&gt;&lt;strong&gt;2026년 9월&lt;/strong&gt;&lt;button type=&quot;button&quot; aria-label=&quot;다음 달&quot;&gt;›&lt;/button&gt;&lt;/div&gt;
+          &lt;div class=&quot;sv2-calendar&quot; aria-label=&quot;2026년 9월 달력&quot;&gt;
+            &lt;span class=&quot;sv2-sun&quot;&gt;일&lt;/span&gt;&lt;span&gt;월&lt;/span&gt;&lt;span&gt;화&lt;/span&gt;&lt;span&gt;수&lt;/span&gt;&lt;span&gt;목&lt;/span&gt;&lt;span&gt;금&lt;/span&gt;&lt;span class=&quot;sv2-sat&quot;&gt;토&lt;/span&gt;
+            &lt;button class=&quot;sv2-empty&quot; aria-hidden=&quot;true&quot;&gt;&lt;/button&gt;&lt;button class=&quot;sv2-empty&quot; aria-hidden=&quot;true&quot;&gt;&lt;/button&gt;
+            &lt;button&gt;1&lt;/button&gt;&lt;button&gt;2&lt;/button&gt;&lt;button&gt;3&lt;/button&gt;&lt;button&gt;4&lt;/button&gt;&lt;button&gt;5&lt;/button&gt;
+            &lt;button class=&quot;sv2-sun&quot;&gt;6&lt;/button&gt;&lt;button&gt;7&lt;/button&gt;&lt;button class=&quot;is-date-selected&quot;&gt;8&lt;/button&gt;&lt;button class=&quot;is-date-selected&quot;&gt;9&lt;/button&gt;&lt;button class=&quot;is-date-selected&quot;&gt;10&lt;/button&gt;&lt;button class=&quot;is-date-selected&quot;&gt;11&lt;/button&gt;&lt;button class=&quot;sv2-sat is-date-selected&quot;&gt;12&lt;/button&gt;
+            &lt;button class=&quot;sv2-sun&quot;&gt;13&lt;/button&gt;&lt;button&gt;14&lt;/button&gt;&lt;button&gt;15&lt;/button&gt;&lt;button&gt;16&lt;/button&gt;&lt;button&gt;17&lt;/button&gt;&lt;button&gt;18&lt;/button&gt;&lt;button class=&quot;sv2-sat&quot;&gt;19&lt;/button&gt;
+            &lt;button class=&quot;sv2-sun&quot;&gt;20&lt;/button&gt;&lt;button&gt;21&lt;/button&gt;&lt;button&gt;22&lt;/button&gt;&lt;button&gt;23&lt;/button&gt;&lt;button&gt;24&lt;/button&gt;&lt;button&gt;25&lt;/button&gt;&lt;button class=&quot;sv2-sat&quot;&gt;26&lt;/button&gt;
+            &lt;button class=&quot;sv2-sun&quot;&gt;27&lt;/button&gt;&lt;button&gt;28&lt;/button&gt;&lt;button&gt;29&lt;/button&gt;&lt;button&gt;30&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+        &lt;div class=&quot;sv2-time-range&quot;&gt;
+          &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;시작 시간&lt;/span&gt;&lt;button type=&quot;button&quot;&gt;오전 10시 &lt;b&gt;⌄&lt;/b&gt;&lt;/button&gt;&lt;/label&gt;
+          &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;종료 시간&lt;/span&gt;&lt;button type=&quot;button&quot;&gt;오후 10시 &lt;b&gt;⌄&lt;/b&gt;&lt;/button&gt;&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;기타 정보 &lt;em&gt;선택&lt;/em&gt;&lt;/span&gt;&lt;input placeholder=&quot;장소나 준비물을 적어주세요&quot; /&gt;&lt;/label&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;카카오톡으로 링크 공유하기&lt;/button&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;sv2-phone&quot; data-panel=&quot;join&quot; aria-label=&quot;참여 화면&quot;&gt;
+      &lt;div class=&quot;sv2-join-content&quot;&gt;
+        &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;
+        &lt;label class=&quot;sv2-field&quot;&gt;&lt;span&gt;참여자 이름&lt;/span&gt;&lt;input value=&quot;참여1&quot; /&gt;&lt;/label&gt;
+        &lt;div class=&quot;sv2-mode-row&quot;&gt;&lt;span&gt;모드&lt;/span&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-mode-toggle&quot; aria-pressed=&quot;false&quot;&gt;&lt;span&gt;안 되는 시간 빼기&lt;/span&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;되는 시간 고르기&lt;/span&gt;&lt;/button&gt;&lt;/div&gt;
+        &lt;p class=&quot;sv2-gesture-hint&quot; aria-live=&quot;polite&quot;&gt;드래그하거나 시작·끝 칸을 차례로 선택&lt;/p&gt;
+        &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;select&quot; aria-label=&quot;가능 시간 선택표&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sv2-reset-strip&quot; hidden&gt;&lt;span&gt;모드를 바꿔 초기화했습니다&lt;/span&gt;&lt;b&gt;·&lt;/b&gt;&lt;button type=&quot;button&quot;&gt;되돌리기&lt;/button&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;제출하기&lt;/button&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;sv2-phone&quot; data-panel=&quot;host&quot; aria-label=&quot;주최자 결과 화면&quot;&gt;
+      &lt;div class=&quot;sv2-results-content&quot;&gt;
+        &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;
+        &lt;p class=&quot;sv2-response-count&quot;&gt;6명 응답&lt;/p&gt;
+        &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;heat&quot; aria-label=&quot;응답 결과 시간표&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sv2-names&quot; aria-live=&quot;polite&quot;&gt;12일 금 19:00 · 참여1, 민지, 현우, 지수, 수빈, 도윤&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;이 시간으로 확정하기&lt;/button&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;sv2-phone&quot; data-panel=&quot;confirm&quot; aria-label=&quot;확정 팝업 화면&quot;&gt;
+      &lt;div class=&quot;sv2-results-content&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;&lt;p class=&quot;sv2-response-count&quot;&gt;6명 응답&lt;/p&gt;
+        &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;heat-backdrop&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sv2-names&quot;&gt;12일 금 19:00 · 참여1, 민지, 현우, 지수, 수빈, 도윤&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sv2-bottom&quot; aria-hidden=&quot;true&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;이 시간으로 확정하기&lt;/button&gt;&lt;/div&gt;
+      &lt;div class=&quot;sv2-dim&quot;&gt;&lt;/div&gt;
+      &lt;section class=&quot;sv2-dialog&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;sv2-dialog-title&quot;&gt;
+        &lt;div class=&quot;sv2-dialog-spectrum&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sv2-dialog-body&quot;&gt;
+          &lt;h3 id=&quot;sv2-dialog-title&quot;&gt;이 시간으로 확정할까요?&lt;/h3&gt;
+          &lt;strong class=&quot;sv2-dialog-time&quot;&gt;9월 12일 금요일&lt;br /&gt;19:00–21:00&lt;/strong&gt;
+          &lt;p&gt;6명 중 4명 가능 · 2명 불가&lt;/p&gt;
+          &lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;확정하기&lt;/button&gt;
+          &lt;button type=&quot;button&quot; class=&quot;sv2-secondary sv2-next-time&quot;&gt;다른 시간 보기&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;sv2-phone&quot; data-panel=&quot;guest&quot; aria-label=&quot;참여자 결과 화면&quot;&gt;
+      &lt;div class=&quot;sv2-guest-content&quot;&gt;
+        &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;
+        &lt;p class=&quot;sv2-response-count&quot;&gt;6명 응답&lt;/p&gt;
+        &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;heat-guest&quot; aria-label=&quot;응답 결과 시간표&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;sv2-confirmed-row&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;sv2-difficult&quot;&gt;이 시간&lt;br /&gt;어려워요&lt;/button&gt;
+          &lt;div class=&quot;sv2-confirmed&quot;&gt;9월 12일 금&lt;br /&gt;19:00–21:00 확정&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-calendar-add&quot;&gt;내 캘린더에 추가&lt;/button&gt;&lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  #schedule-v2 {
+    --sv2-lime:#D4FF3F; --sv2-cyan:#4FE3FF; --sv2-violet:#A78BFA; --sv2-pink:#FF7AC8;
+    --sv2-ink:#111111; --sv2-sub:#8A8A8E; --sv2-line:#ECECEF; --sv2-card:#FBFBFD;
+    --sv2-spectrum:linear-gradient(135deg,var(--sv2-lime) 0%,var(--sv2-cyan) 35%,var(--sv2-violet) 68%,var(--sv2-pink) 100%);
+    --sv2-action:linear-gradient(rgba(17,17,17,.18),rgba(17,17,17,.18)),var(--sv2-spectrum);
+    width:100%; color:var(--sv2-ink); font-family:Pretendard,-apple-system,BlinkMacSystemFont,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  }
+  #schedule-v2 * { box-sizing:border-box; }
+  #schedule-v2 [hidden] { display:none !important; }
+  #schedule-v2 button, #schedule-v2 input { font:inherit; }
+  #schedule-v2 button { color:inherit; cursor:pointer; }
+  .sv2-switcher { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin:0 auto 14px; max-width:640px; }
+  .sv2-switcher button { min-height:36px; padding:7px 12px; border:1px solid var(--border); border-radius:999px; background:var(--background); color:var(--muted-foreground); font-size:13px; font-weight:500; }
+  .sv2-switcher button[aria-selected=&quot;true&quot;] { background:var(--foreground); color:var(--background); border-color:var(--foreground); }
+  .sv2-stage { display:flex; justify-content:center; width:100%; }
+  .sv2-phone { position:relative; display:none; width:402px; height:874px; overflow:hidden; background:radial-gradient(circle at 10% 0%,rgba(79,227,255,.08),transparent 30%),radial-gradient(circle at 92% 6%,rgba(167,139,250,.07),transparent 32%),#FFFFFF; border-radius:34px; box-shadow:0 12px 40px rgba(0,0,0,.12); border:1px solid #E3E3E6; }
+  .sv2-phone.is-active { display:block; }
+  .sv2-glow { position:absolute; inset:0 0 auto; height:160px; background:linear-gradient(135deg,rgba(212,255,63,.1),rgba(79,227,255,.1),rgba(167,139,250,.09),rgba(255,122,200,.1)); mask-image:linear-gradient(#000,transparent); pointer-events:none; }
+  .sv2-create-content,.sv2-join-content,.sv2-results-content,.sv2-guest-content { position:relative; padding:34px 20px 92px; height:100%; }
+  .sv2-create-content { padding-top:28px; }
+  #schedule-v2 h1 { margin:0 0 20px; font-size:26px; line-height:1.2; letter-spacing:-.5px; font-weight:700; }
+  #schedule-v2 h2 { margin:0; font-size:20px; line-height:1.4; letter-spacing:-.3px; font-weight:600; }
+  .sv2-field { display:block; margin-bottom:14px; }
+  .sv2-field &gt; span,.sv2-section-label { display:flex; align-items:center; gap:5px; margin-bottom:6px; font-size:12px; line-height:1.4; letter-spacing:.2px; color:var(--sv2-sub); }
+  .sv2-field em { font-style:normal; color:#B3B3B7; }
+  .sv2-field input,.sv2-field &gt; button { width:100%; height:46px; padding:0 13px; border:1px solid var(--sv2-line); border-radius:10px; background:#FFFFFF; color:var(--sv2-ink); font-size:16px; line-height:1.4; font-weight:400; text-align:left; outline-offset:2px; }
+  .sv2-field input::placeholder { color:#B5B5B8; }
+  .sv2-field &gt; button { display:flex; justify-content:space-between; align-items:center; }
+  .sv2-field &gt; button b { color:var(--sv2-sub); font-weight:400; }
+  .sv2-date-section { margin-top:2px; }
+  .sv2-month-row { display:grid; grid-template-columns:44px 1fr 44px; align-items:center; height:34px; margin-bottom:4px; }
+  .sv2-month-row strong { text-align:center; font-size:15px; line-height:1.4; font-weight:500; }
+  .sv2-month-row button { height:34px; border:0; background:transparent; font-size:24px; font-weight:400; color:var(--sv2-sub); }
+  .sv2-calendar { display:grid; grid-template-columns:repeat(7,1fr); grid-auto-rows:32px; align-items:center; text-align:center; margin-bottom:14px; }
+  .sv2-calendar &gt; span { font-size:12px; line-height:1.4; letter-spacing:.2px; color:var(--sv2-sub); }
+  .sv2-calendar button { position:relative; justify-self:center; width:30px; height:30px; padding:0; border:0; background:transparent; border-radius:50%; font-size:15px; line-height:1; font-weight:500; }
+  .sv2-calendar button.is-date-selected { background:var(--sv2-spectrum); color:#111; box-shadow:inset 0 0 0 1px rgba(17,17,17,.08); }
+  .sv2-calendar button.sv2-empty { visibility:hidden; pointer-events:none; }
+  .sv2-calendar .sv2-sun { color:#C25C79; }
+  .sv2-calendar .sv2-sat { color:#5D70B8; }
+  .sv2-calendar button.is-date-selected.sv2-sun,.sv2-calendar button.is-date-selected.sv2-sat { color:#111; }
+  .sv2-time-range { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .sv2-time-range .sv2-field { margin-bottom:14px; }
+  .sv2-bottom { position:absolute; z-index:4; left:0; right:0; bottom:0; padding:10px 20px 18px; background:linear-gradient(to bottom,rgba(255,255,255,0),#FFF 24%); }
+  .sv2-primary,.sv2-calendar-add,.sv2-secondary { width:100%; height:56px; border-radius:14px; font-size:17px; line-height:1.4; font-weight:600; }
+  .sv2-primary { border:0; background:var(--sv2-action); color:#FFF !important; box-shadow:inset 0 0 0 1px rgba(17,17,17,.08); }
+  .sv2-join-content { padding-top:32px; }
+  .sv2-join-content h2 { margin-bottom:14px; }
+  .sv2-mode-row { display:flex; justify-content:flex-end; align-items:center; gap:7px; margin:-2px 0 8px; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-mode-toggle { display:flex; align-items:center; gap:7px; padding:0; border:0; background:transparent; color:var(--sv2-sub) !important; font-size:12px; }
+  .sv2-mode-toggle span:first-child { color:var(--sv2-ink); }
+  .sv2-mode-toggle[aria-pressed=&quot;true&quot;] span:first-child { color:var(--sv2-sub); }
+  .sv2-mode-toggle[aria-pressed=&quot;true&quot;] span:last-child { color:var(--sv2-ink); }
+  .sv2-mode-toggle i { position:relative; width:28px; height:16px; border-radius:999px; background:#D8D8DC; }
+  .sv2-mode-toggle i::after { content:&quot;&quot;; position:absolute; top:2px; left:2px; width:12px; height:12px; border-radius:50%; background:#FFF; transition:transform .18s ease; }
+  .sv2-mode-toggle[aria-pressed=&quot;true&quot;] i { background:#B8A2ED; }
+  .sv2-mode-toggle[aria-pressed=&quot;true&quot;] i::after { transform:translateX(12px); }
+  .sv2-gesture-hint { margin:0 0 7px; color:var(--sv2-sub); text-align:right; font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-schedule { user-select:none; touch-action:none; border:1px solid var(--sv2-line); border-radius:16px; background:var(--sv2-card); padding:9px 8px 10px; }
+  .sv2-grid-head,.sv2-grid-row { display:grid; grid-template-columns:44px repeat(5,minmax(0,1fr)); column-gap:1px; }
+  .sv2-grid-head { height:44px; align-items:start; }
+  .sv2-day { text-align:center; font-size:12px; line-height:1.15; letter-spacing:.2px; color:var(--sv2-sub); }
+  .sv2-day b { display:block; margin-top:3px; font-size:12px; font-weight:400; color:#A6A6AA; }
+  .sv2-grid-body { display:grid; row-gap:1px; }
+  .sv2-grid-row { height:36px; }
+  .sv2-hour { padding-top:4px; font-size:12px; line-height:1.4; letter-spacing:.2px; color:var(--sv2-sub); text-align:center; }
+  .sv2-slot { position:relative; height:36px; padding:0; border:1px solid #E4E4E8; border-radius:2px; background:#FFF; }
+  .sv2-schedule[data-kind=&quot;select&quot;] .sv2-slot.is-available { border-color:#8DD8E8; background:#BDEFFF; }
+  .sv2-schedule[data-kind=&quot;select&quot;] .sv2-slot.is-dragging::after { content:&quot;&quot;; position:absolute; inset:-2px; z-index:3; border:2px solid #111; border-radius:3px; pointer-events:none; }
+  .sv2-schedule[data-kind=&quot;select&quot;] .sv2-slot.is-anchor::after { content:&quot;&quot;; position:absolute; inset:-2px; z-index:3; border:2px solid #6B4CC4; border-radius:3px; pointer-events:none; }
+  .sv2-reset-strip { display:flex; align-items:center; justify-content:center; gap:5px; height:30px; margin-top:6px; border-radius:8px; background:#F5F5F7; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-reset-strip button { border:0; background:transparent; padding:3px 0; color:var(--sv2-ink); font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+  .sv2-results-content,.sv2-guest-content { padding-top:32px; }
+  .sv2-response-count { margin:2px 0 10px; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-heat { display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; font-weight:600; border:1px solid transparent; }
+  .sv2-heat[data-level=&quot;0&quot;] { background:#FFF; border-color:var(--sv2-line); color:var(--sv2-sub); }
+  .sv2-heat[data-level=&quot;1&quot;] { background:rgba(79,227,255,.16); color:#35545A; }
+  .sv2-heat[data-level=&quot;2&quot;] { background:rgba(79,227,255,.34); color:#173F47; }
+  .sv2-heat[data-level=&quot;3&quot;] { background:rgba(79,227,255,.58); color:#0D3037; }
+  .sv2-heat[data-level=&quot;4&quot;] { background:var(--sv2-spectrum); border-color:#111; color:#111; }
+  .sv2-heat.is-picked { box-shadow:0 0 0 2px #111; z-index:2; }
+  .sv2-names { height:28px; display:flex; align-items:center; margin-top:7px; padding:0 3px; border-bottom:1px solid var(--sv2-line); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-dim { position:absolute; z-index:7; inset:0; background:rgba(0,0,0,.4); }
+  .sv2-dialog { position:absolute; z-index:8; top:50%; left:32px; right:32px; transform:translateY(-50%); overflow:hidden; border-radius:20px; background:#FFF; box-shadow:0 12px 40px rgba(0,0,0,.22); }
+  .sv2-dialog-spectrum { height:4px; background:var(--sv2-spectrum); }
+  .sv2-dialog-body { padding:25px 22px 22px; text-align:center; }
+  .sv2-dialog h3 { margin:0 0 20px; font-size:17px; line-height:1.4; font-weight:600; letter-spacing:0; text-align:left; }
+  .sv2-dialog-time { display:block; margin-bottom:9px; font-size:19px; line-height:1.4; letter-spacing:-.3px; font-weight:700; }
+  .sv2-dialog p { margin:0 0 22px; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
+  .sv2-dialog .sv2-primary,.sv2-dialog .sv2-secondary { height:52px; }
+  .sv2-dialog .sv2-secondary { margin-top:8px; border:1px solid var(--sv2-line); background:#FFF; color:var(--sv2-sub); }
+  .sv2-confirmed-row { display:grid; grid-template-columns:78px 1fr; gap:8px; align-items:stretch; margin-top:10px; }
+  .sv2-difficult { min-height:58px; border:1px solid #D7D7DB; border-radius:10px; background:#FFF; color:var(--sv2-sub) !important; font-size:12px; line-height:1.35; letter-spacing:.2px; }
+  .sv2-confirmed { display:flex; align-items:center; justify-content:center; min-height:58px; padding:5px 10px; border-radius:14px; background:var(--sv2-action); color:#FFF; text-align:center; font-size:19px; line-height:1.35; letter-spacing:-.3px; font-weight:700; }
+  .sv2-calendar-add { border:1px solid #CFCFD4; background:#FFF; color:#5E5E63 !important; }
+  @media (max-width:460px) {
+    .sv2-phone { width:min(402px,100%); height:874px; border-radius:28px; }
+    .sv2-switcher { justify-content:flex-start; }
+    .sv2-switcher button { padding-inline:10px; }
+  }
+&lt;/style&gt;
+
+&lt;script&gt;
+(() =&gt; {
+  const root = document.getElementById(&#x27;schedule-v2&#x27;);
+  if (!root) return;
+  const days = [[&#x27;월&#x27;,&#x27;8&#x27;],[&#x27;화&#x27;,&#x27;9&#x27;],[&#x27;수&#x27;,&#x27;10&#x27;],[&#x27;목&#x27;,&#x27;11&#x27;],[&#x27;금&#x27;,&#x27;12&#x27;]];
+  const heat = [
+    [0,1,2,1,0],[1,2,2,3,1],[2,3,2,2,1],[2,2,3,4,2],
+    [1,3,3,2,2],[2,2,3,3,1],[2,3,2,3,2],[3,3,4,3,2],
+    [2,4,3,4,2],[3,3,4,3,2],[2,3,3,2,1],[1,2,2,1,0]
+  ];
+  const counts = [0,2,3,5,6];
+
+  function buildSchedule(el) {
+    const kind = el.dataset.kind;
+    const isSelect = kind === &#x27;select&#x27;;
+    const isBackdrop = kind === &#x27;heat-backdrop&#x27;;
+    const head = document.createElement(&#x27;div&#x27;);
+    head.className = &#x27;sv2-grid-head&#x27;;
+    head.innerHTML = &#x27;&lt;span&gt;&lt;/span&gt;&#x27; + days.map(d =&gt; `&lt;span class=&quot;sv2-day&quot;&gt;${d[0]}&lt;b&gt;${d[1]}&lt;/b&gt;&lt;/span&gt;`).join(&#x27;&#x27;);
+    const body = document.createElement(&#x27;div&#x27;);
+    body.className = &#x27;sv2-grid-body&#x27;;
+    for (let r=0;r&lt;12;r++) {
+      const row = document.createElement(&#x27;div&#x27;);
+      row.className = &#x27;sv2-grid-row&#x27;;
+      row.innerHTML = `&lt;span class=&quot;sv2-hour&quot;&gt;${r+10}&lt;/span&gt;`;
+      for (let c=0;c&lt;5;c++) {
+        const slot = document.createElement(&#x27;button&#x27;);
+        slot.type = &#x27;button&#x27;;
+        slot.className = &#x27;sv2-slot&#x27;;
+        slot.dataset.row = r; slot.dataset.col = c;
+        if (isSelect) {
+          slot.classList.add(&#x27;is-available&#x27;);
+          slot.setAttribute(&#x27;aria-label&#x27;, `${days[c][0]}요일 ${r+10}시 가능`);
+          slot.setAttribute(&#x27;aria-pressed&#x27;,&#x27;true&#x27;);
+        } else {
+          const level = heat[r][c];
+          slot.classList.add(&#x27;sv2-heat&#x27;);
+          slot.dataset.level = level;
+          slot.textContent = counts[level];
+          slot.setAttribute(&#x27;aria-label&#x27;, `${days[c][0]}요일 ${r+10}시 ${counts[level]}명 가능`);
+          if (!isBackdrop) slot.addEventListener(&#x27;click&#x27;, () =&gt; pickHeat(el,slot));
+        }
+        row.appendChild(slot);
+      }
+      body.appendChild(row);
+    }
+    el.append(head,body);
+    if (isSelect) wireDrag(el);
+  }
+
+  function pickHeat(el, slot) {
+    el.querySelectorAll(&#x27;.is-picked&#x27;).forEach(s =&gt; s.classList.remove(&#x27;is-picked&#x27;));
+    slot.classList.add(&#x27;is-picked&#x27;);
+    const r=+slot.dataset.row, c=+slot.dataset.col;
+    const parent = el.closest(&#x27;.sv2-phone&#x27;);
+    const names = parent.querySelector(&#x27;.sv2-names&#x27;);
+    if (names) {
+      const n = counts[heat[r][c]];
+      const roster = [&#x27;참여1&#x27;,&#x27;민지&#x27;,&#x27;현우&#x27;,&#x27;지수&#x27;,&#x27;수빈&#x27;,&#x27;도윤&#x27;].slice(0,n).join(&#x27;, &#x27;);
+      names.textContent = `${days[c][1]}일 ${days[c][0]} ${r+10}:00 · ${roster || &#x27;가능한 참여자 없음&#x27;}`;
+    }
+  }
+
+  function wireDrag(el) {
+    let dragging=false, targetState=false, touched=new Set(), anchor=null, anchorState=false, startSlot=null;
+    const hint = el.parentElement.querySelector(&#x27;.sv2-gesture-hint&#x27;);
+    const defaultHint = &#x27;드래그하거나 시작·끝 칸을 차례로 선택&#x27;;
+    const setState = (slot,state,mark=false) =&gt; {
+      slot.classList.toggle(&#x27;is-available&#x27;,state);
+      if (mark) slot.classList.add(&#x27;is-dragging&#x27;);
+      slot.setAttribute(&#x27;aria-pressed&#x27;,String(state));
+      slot.setAttribute(&#x27;aria-label&#x27;,slot.getAttribute(&#x27;aria-label&#x27;).replace(/가능$|불가능$/,state?&#x27;가능&#x27;:&#x27;불가능&#x27;));
+    };
+    const paint = slot =&gt; {
+      const key = `${slot.dataset.row}-${slot.dataset.col}`;
+      if (touched.has(key)) return;
+      touched.add(key);
+      setState(slot,targetState,true);
+    };
+    const clearAnchor = () =&gt; {
+      if (anchor) anchor.classList.remove(&#x27;is-anchor&#x27;);
+      anchor=null;
+    };
+    el.addEventListener(&#x27;sv2-clear-anchor&#x27;,()=&gt;{
+      clearAnchor();
+      if (hint) hint.textContent=defaultHint;
+    });
+    const finishTap = slot =&gt; {
+      if (!anchor) {
+        anchor=slot; anchorState=targetState; anchor.classList.add(&#x27;is-anchor&#x27;);
+        if (hint) hint.textContent=&#x27;시작 칸 선택됨 · 끝 칸을 선택하세요&#x27;;
+        return;
+      }
+      if (anchor===slot) {
+        clearAnchor();
+        if (hint) hint.textContent=defaultHint;
+        return;
+      }
+      const r1=+anchor.dataset.row, c1=+anchor.dataset.col, r2=+slot.dataset.row, c2=+slot.dataset.col;
+      el.querySelectorAll(&#x27;.sv2-slot&#x27;).forEach(cell =&gt; {
+        const r=+cell.dataset.row, c=+cell.dataset.col;
+        if (r&gt;=Math.min(r1,r2) &amp;&amp; r&lt;=Math.max(r1,r2) &amp;&amp; c&gt;=Math.min(c1,c2) &amp;&amp; c&lt;=Math.max(c1,c2)) setState(cell,anchorState);
+      });
+      clearAnchor();
+      if (hint) hint.textContent=defaultHint;
+    };
+    el.addEventListener(&#x27;pointerdown&#x27;, e =&gt; {
+      const slot=e.target.closest(&#x27;.sv2-slot&#x27;); if(!slot)return;
+      e.preventDefault(); dragging=true; touched.clear(); startSlot=slot; targetState=!slot.classList.contains(&#x27;is-available&#x27;);
+      el.setPointerCapture?.(e.pointerId); paint(slot);
+    });
+    el.addEventListener(&#x27;pointermove&#x27;, e =&gt; {
+      if(!dragging)return;
+      const hit=document.elementFromPoint(e.clientX,e.clientY)?.closest(&#x27;.sv2-slot&#x27;);
+      if(hit &amp;&amp; el.contains(hit)) paint(hit);
+    });
+    const finish = cancelled =&gt; {
+      if(!dragging)return;
+      const wasTap=touched.size===1 &amp;&amp; !cancelled;
+      dragging=false;
+      el.querySelectorAll(&#x27;.is-dragging&#x27;).forEach(s=&gt;s.classList.remove(&#x27;is-dragging&#x27;));
+      if (wasTap &amp;&amp; startSlot) finishTap(startSlot);
+      else {
+        clearAnchor();
+        if (hint) hint.textContent=defaultHint;
+      }
+      startSlot=null; touched.clear();
+    };
+    el.addEventListener(&#x27;pointerup&#x27;,()=&gt;finish(false));
+    el.addEventListener(&#x27;pointercancel&#x27;,()=&gt;finish(true));
+    el.addEventListener(&#x27;click&#x27;,e=&gt;{
+      e.preventDefault();
+      if(e.detail!==0)return;
+      const slot=e.target.closest(&#x27;.sv2-slot&#x27;); if(!slot)return;
+      targetState=!slot.classList.contains(&#x27;is-available&#x27;);
+      setState(slot,targetState); finishTap(slot);
+    });
+  }
+
+  root.querySelectorAll(&#x27;.sv2-schedule&#x27;).forEach(buildSchedule);
+  root.querySelectorAll(&#x27;.sv2-switcher button&#x27;).forEach(tab =&gt; tab.addEventListener(&#x27;click&#x27;, () =&gt; {
+    root.querySelectorAll(&#x27;.sv2-switcher button&#x27;).forEach(t=&gt;t.setAttribute(&#x27;aria-selected&#x27;,&#x27;false&#x27;));
+    root.querySelectorAll(&#x27;.sv2-phone&#x27;).forEach(p=&gt;p.classList.remove(&#x27;is-active&#x27;));
+    tab.setAttribute(&#x27;aria-selected&#x27;,&#x27;true&#x27;);
+    root.querySelector(`[data-panel=&quot;${tab.dataset.screen}&quot;]`).classList.add(&#x27;is-active&#x27;);
+  }));
+
+  const mode = root.querySelector(&#x27;.sv2-mode-toggle&#x27;);
+  const strip = root.querySelector(&#x27;.sv2-reset-strip&#x27;);
+  let snapshot=[];
+  mode.addEventListener(&#x27;click&#x27;, () =&gt; {
+    const grid=root.querySelector(&#x27;[data-kind=&quot;select&quot;]&#x27;);
+    grid.dispatchEvent(new Event(&#x27;sv2-clear-anchor&#x27;));
+    snapshot=[...grid.querySelectorAll(&#x27;.sv2-slot&#x27;)].map(s=&gt;s.classList.contains(&#x27;is-available&#x27;));
+    const next=mode.getAttribute(&#x27;aria-pressed&#x27;)!==&#x27;true&#x27;; mode.setAttribute(&#x27;aria-pressed&#x27;,String(next));
+    grid.querySelectorAll(&#x27;.sv2-slot&#x27;).forEach(s=&gt;{ s.classList.remove(&#x27;is-anchor&#x27;); s.classList.toggle(&#x27;is-available&#x27;,!next); s.setAttribute(&#x27;aria-pressed&#x27;,String(!next)); });
+    root.querySelector(&#x27;.sv2-gesture-hint&#x27;).textContent=&#x27;드래그하거나 시작·끝 칸을 차례로 선택&#x27;;
+    strip.hidden=false;
+  });
+  strip.querySelector(&#x27;button&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+    root.querySelector(&#x27;[data-kind=&quot;select&quot;]&#x27;).dispatchEvent(new Event(&#x27;sv2-clear-anchor&#x27;));
+    root.querySelectorAll(&#x27;[data-kind=&quot;select&quot;] .sv2-slot&#x27;).forEach((s,i)=&gt;{ s.classList.remove(&#x27;is-anchor&#x27;); s.classList.toggle(&#x27;is-available&#x27;,snapshot[i]); s.setAttribute(&#x27;aria-pressed&#x27;,String(snapshot[i])); });
+    root.querySelector(&#x27;.sv2-gesture-hint&#x27;).textContent=&#x27;드래그하거나 시작·끝 칸을 차례로 선택&#x27;;
+    mode.setAttribute(&#x27;aria-pressed&#x27;,String(mode.getAttribute(&#x27;aria-pressed&#x27;)!==&#x27;true&#x27;)); strip.hidden=true;
+  });
+
+  root.querySelectorAll(&#x27;.sv2-calendar button:not(.sv2-empty)&#x27;).forEach(day=&gt;day.addEventListener(&#x27;click&#x27;,()=&gt;{
+    if(day.classList.contains(&#x27;is-date-selected&#x27;)) day.classList.remove(&#x27;is-date-selected&#x27;);
+    else if(root.querySelectorAll(&#x27;.sv2-calendar .is-date-selected&#x27;).length&lt;5) day.classList.add(&#x27;is-date-selected&#x27;);
+  }));
+
+  const nextTime = root.querySelector(&#x27;.sv2-next-time&#x27;);
+  nextTime.addEventListener(&#x27;click&#x27;,()=&gt;{
+    const time=root.querySelector(&#x27;.sv2-dialog-time&#x27;);
+    const second=time.textContent.includes(&#x27;12일&#x27;);
+    time.innerHTML=second?&#x27;9월 11일 목요일&lt;br&gt;18:00–20:00&#x27;:&#x27;9월 12일 금요일&lt;br&gt;19:00–21:00&#x27;;
+    root.querySelector(&#x27;.sv2-dialog p&#x27;).textContent=second?&#x27;6명 중 3명 가능 · 3명 불가&#x27;:&#x27;6명 중 4명 가능 · 2명 불가&#x27;;
+  });
+})();
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>

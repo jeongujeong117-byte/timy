@@ -1,0 +1,11 @@
+# Generated dependencies and build output
+app/node_modules/
+app/dist/
+
+# Local working cache
+work/
+
+# Logs and operating-system files
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,47 @@
+.participation-screen {
+  width: min(100% - 40px, 362px);
+}
+
+.participation-screen h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.instruction {
+  margin: 6px 0 20px;
+  color: #8a8a8e;
+  font-size: 12px;
+}
+
+.time-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 1px;
+}
+
+.time-label {
+  color: #8a8a8e;
+  font-size: 12px;
+  text-align: center;
+}
+
+.time-slot {
+  height: 36px;
+  border: 1px solid #ececef;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.time-slot.available {
+  border-color: #8dd8e8;
+  background: #bdefff;
+  color: #173f47;
+}
+
+.time-slot.unavailable {
+  background: #fff;
+  color: #8a8a8e;
+}
