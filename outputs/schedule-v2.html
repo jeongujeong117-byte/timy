@@ -1046,6 +1046,8 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;
         &lt;p class=&quot;sv2-response-count&quot;&gt;6명 응답&lt;/p&gt;
         &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;heat&quot; aria-label=&quot;응답 결과 시간표&quot;&gt;&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;sv2-recommend-trigger&quot; aria-expanded=&quot;false&quot;&gt;추천 시간 뽑기&lt;/button&gt;
+        &lt;div class=&quot;sv2-recommend-result&quot; aria-live=&quot;polite&quot; hidden&gt;1순위 · 9월 10일 수 17:00–19:00 · 6명 중 5명 가능&lt;/div&gt;
         &lt;div class=&quot;sv2-names&quot; aria-live=&quot;polite&quot;&gt;12일 금 19:00 · 참여1, 민지, 현우, 지수, 수빈, 도윤&lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;sv2-bottom&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;sv2-primary&quot;&gt;이 시간으로 확정하기&lt;/button&gt;&lt;/div&gt;
@@ -1076,6 +1078,8 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;h2&gt;금요일 저녁 모임&lt;/h2&gt;
         &lt;p class=&quot;sv2-response-count&quot;&gt;6명 응답&lt;/p&gt;
         &lt;div class=&quot;sv2-schedule&quot; data-kind=&quot;heat-guest&quot; aria-label=&quot;응답 결과 시간표&quot;&gt;&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;sv2-recommend-trigger&quot; aria-expanded=&quot;false&quot;&gt;추천 시간 뽑기&lt;/button&gt;
+        &lt;div class=&quot;sv2-recommend-result&quot; aria-live=&quot;polite&quot; hidden&gt;1순위 · 9월 10일 수 17:00–19:00 · 6명 중 5명 가능&lt;/div&gt;
         &lt;div class=&quot;sv2-confirmed-row&quot;&gt;
           &lt;button type=&quot;button&quot; class=&quot;sv2-difficult&quot;&gt;이 시간&lt;br /&gt;어려워요&lt;/button&gt;
           &lt;div class=&quot;sv2-confirmed&quot;&gt;9월 12일 금&lt;br /&gt;19:00–21:00 확정&lt;/div&gt;
@@ -1172,6 +1176,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   .sv2-heat[data-level=&quot;3&quot;] { background:rgba(79,227,255,.58); color:#0D3037; }
   .sv2-heat[data-level=&quot;4&quot;] { background:var(--sv2-spectrum); border-color:#111; color:#111; }
   .sv2-heat.is-picked { box-shadow:0 0 0 2px #111; z-index:2; }
+  .sv2-recommend-trigger { width:100%; height:36px; margin-top:7px; border:1px solid #CFCFD4; border-radius:10px; background:#FFF; color:#5E5E63 !important; font-size:13px; font-weight:600; }
+  .sv2-recommend-result { min-height:28px; padding:6px 3px 4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--sv2-ink); font-size:12px; line-height:1.4; letter-spacing:.2px; }
   .sv2-names { height:28px; display:flex; align-items:center; margin-top:7px; padding:0 3px; border-bottom:1px solid var(--sv2-line); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--sv2-sub); font-size:12px; line-height:1.4; letter-spacing:.2px; }
   .sv2-dim { position:absolute; z-index:7; inset:0; background:rgba(0,0,0,.4); }
   .sv2-dialog { position:absolute; z-index:8; top:50%; left:32px; right:32px; transform:translateY(-50%); overflow:hidden; border-radius:20px; background:#FFF; box-shadow:0 12px 40px rgba(0,0,0,.22); }
@@ -1358,6 +1364,14 @@ html&gt;body{padding:0}&lt;/style&gt;
     root.querySelector(&#x27;.sv2-gesture-hint&#x27;).textContent=&#x27;드래그하거나 시작·끝 칸을 차례로 선택&#x27;;
     mode.setAttribute(&#x27;aria-pressed&#x27;,String(mode.getAttribute(&#x27;aria-pressed&#x27;)!==&#x27;true&#x27;)); strip.hidden=true;
   });
+
+  root.querySelectorAll(&#x27;.sv2-recommend-trigger&#x27;).forEach(button=&gt;button.addEventListener(&#x27;click&#x27;,()=&gt;{
+    const result=button.nextElementSibling;
+    const willShow=result.hidden;
+    result.hidden=!willShow;
+    button.setAttribute(&#x27;aria-expanded&#x27;,String(willShow));
+    button.textContent=willShow?&#x27;추천 시간 다시 뽑기&#x27;:&#x27;추천 시간 뽑기&#x27;;
+  }));
 
   root.querySelectorAll(&#x27;.sv2-calendar button:not(.sv2-empty)&#x27;).forEach(day=&gt;day.addEventListener(&#x27;click&#x27;,()=&gt;{
     if(day.classList.contains(&#x27;is-date-selected&#x27;)) day.classList.remove(&#x27;is-date-selected&#x27;);
