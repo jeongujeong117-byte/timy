@@ -1,0 +1,282 @@
+# API 동작을 설명하는 명세이며 실행 서버 코드가 아닙니다.
+# 경로와 Bearer 전달 방식은 리뷰용 설계안입니다. Supabase 실제 호출 경로는 구현 때 연결합니다.
+openapi: 3.1.0
+info:
+  title: 약속앱 API — 추천 즉시 확정 예제
+  version: 0.1.0
+  description: |
+    주최자의 추천받기 버튼으로 최상위 구간 하나를 즉시 확정하는 API 예제.
+    요청부터 성공·오류까지 한 작업을 설명한다. 전체 서비스 API 명세는 아니다.
+    아직 서버와 DB는 구현되지 않았으며 아래 서버 주소는 호출할 수 없는 예시다.
+    후보 목록, 별도 확정 버튼, 자동 취소는 제공하지 않는다.
+servers:
+  - url: https://api.example.invalid
+    description: 문서용 주소 — 실제 서비스 아님
+tags:
+  - name: Confirmations
+    description: 모임의 현재 확정 구간
+
+paths:
+  /rooms/{roomId}/confirmation:
+    post:
+      tags: [Confirmations]
+      operationId: recommendAndConfirm
+      summary: 추천 최상위 구간 하나를 즉시 확정
+      description: |
+        호출 주체는 해당 모임의 주최자다.
+        roomId와 권한 토큰만 받는다. 요청 Body와 Query는 사용하지 않는다.
+        날짜, 소요 시간, 시간 응답, 제외 기록은 서버가 DB에서 읽는다.
+
+        처리 순서:
+        1. roomId 형식과 토큰을 검증하고 모임 존재 및 주최자 권한을 확인한다.
+        2. 같은 모임의 변경 작업을 직렬화하고 현재 확정값이 없는지 다시 검사한다.
+        3. submitted_at이 있는 참여자들의 최신 응답을 일관된 시점으로 읽는다.
+        4. 후보 날짜·전체 시간 범위 안에서 소요 시간 길이의 연속 구간을 만든다.
+        5. 취소 기록의 실제 날짜·시작·소요 시간이 모두 일치하는 구간을 제외한다.
+        6. 구간 전체가 가능한 참여자 수 내림차순, 날짜·시작 오름차순으로 정렬한다.
+        7. 후보가 없거나 최상위 가능 인원이 0명이면 확정하지 않고 오류를 반환한다.
+        8. 1위 구간의 confirmed_date_id와 confirmed_start_minute를 함께 저장한다.
+        9. 저장이 성공한 뒤 201과 확정 결과를 반환한다.
+
+        needs_review 참여자의 기존 응답은 포함하되 미응답인 새 칸은 가능으로 세지 않는다.
+        종료 시각은 시작+소요 시간으로 계산하며, 모든 칸이 가능한 사람만 센다.
+        성공 응답의 인원수는 계산 시점의 값이다. 이후 응답 변경은 확정 구간을 바꾸지 않는다.
+        확정은 동시에 하나만 유지한다. 기존 확정이 있으면 덮어쓰지 않고 409를 반환한다.
+        취소 후 재추천은 별도 사용자 동작이며 이 API는 기존 확정을 취소하지 않는다.
+
+        실패 시 이 요청으로 확정값·응답·제외 기록·반응을 바꾸지 않는다.
+        네트워크 단절은 서버 실패를 의미하지 않는다. 재시도 전 모임을 다시 조회한다.
+        본 예제에는 취소 API와 조회 API, 재시도 키 저장 기능은 아직 정의하지 않았다.
+      security:
+        - RoomToken: []
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          description: 추천하고 확정할 모임의 UUID
+          schema:
+            type: string
+            format: uuid
+          example: 6f8204c8-2f24-4e30-92de-3ddde73188fc
+      # POST여도 서버가 필요한 업무 데이터를 이미 가지고 있다면 Body는 없어도 됩니다.
+      responses:
+        '201':
+          description: 최상위 구간을 새로 확정함. DB 저장 완료 후 반환한다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationResult'
+              examples:
+                confirmed:
+                  summary: 6명 중 4명이 2시간 전체에 참석 가능
+                  value:
+                    roomId: 6f8204c8-2f24-4e30-92de-3ddde73188fc
+                    confirmation:
+                      roomDateId: c1154b13-4f04-457e-94a2-9800404a50cd
+                      localDate: '2026-09-12'
+                      timezone: Asia/Seoul
+                      startMinute: 1140
+                      endMinute: 1260
+                      durationMinutes: 120
+                      availableCount: 4
+                      totalCount: 6
+        '400':
+          description: 모임 ID가 UUID 형식이 아님
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                invalidRoomId:
+                  value:
+                    error:
+                      code: INVALID_ROOM_ID
+                      message: 모임 ID 형식이 올바르지 않아요.
+        '401':
+          description: 토큰이 없거나 유효한 권한 토큰으로 확인할 수 없음
+          headers:
+            WWW-Authenticate:
+              description: Bearer 권한 토큰이 필요하다는 인증 안내
+              schema:
+                type: string
+              example: 'Bearer realm="schedule"'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                unauthorized:
+                  value:
+                    error:
+                      code: UNAUTHORIZED
+                      message: 주최자 링크의 권한을 확인해 주세요.
+        '403':
+          description: 유효한 참여자 토큰 등으로 요청했지만 이 모임의 주최자 권한이 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                hostOnly:
+                  value:
+                    error:
+                      code: HOST_ONLY
+                      message: 주최자만 시간을 추천받아 확정할 수 있어요.
+        '404':
+          description: 유효한 UUID이지만 해당 모임이 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                roomNotFound:
+                  value:
+                    error:
+                      code: ROOM_NOT_FOUND
+                      message: 모임을 찾을 수 없어요.
+        '409':
+          description: 현재 모임 상태에서는 새 확정을 만들 수 없음. 오류 code로 이유를 구분한다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                alreadyConfirmed:
+                  value:
+                    error:
+                      code: ALREADY_CONFIRMED
+                      message: 이미 확정된 시간이 있어요. 변경하려면 먼저 취소해 주세요.
+                noResponses:
+                  value:
+                    error:
+                      code: NO_RESPONSES
+                      message: 아직 응답이 없어요.
+                noCandidates:
+                  value:
+                    error:
+                      code: NO_CANDIDATES
+                      message: 더 이상 추천할 시간이 없어요.
+                noAvailableInterval:
+                  value:
+                    error:
+                      code: NO_AVAILABLE_INTERVAL
+                      message: 가능한 시간이 없어요.
+        '500':
+          description: 계산·저장 중 예상하지 못한 서버 오류. 변경 작업은 롤백한다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                internalError:
+                  value:
+                    error:
+                      code: INTERNAL_ERROR
+                      message: 처리하지 못했어요. 잠시 후 모임 상태를 다시 확인해 주세요.
+
+components:
+  securitySchemes:
+    RoomToken:
+      type: http
+      scheme: bearer
+      description: |
+        로그인 없이 발급한 권한 토큰 원문을 Authorization: Bearer <token>으로 전달한다.
+        JWT를 전제하지 않는다. 이 작업은 해당 모임의 주최자 토큰을 요구한다.
+        서버는 해시를 비교해 검증하며 isHost 같은 클라이언트의 주장을 신뢰하지 않는다.
+        토큰·해시는 응답에 포함하지 않는다. 문서에 실제 토큰을 기록하지 않는다.
+        Supabase 기본 Authorization 처리와 연결하는 구체적 방법은 구현 때 정한다.
+  schemas:
+    ConfirmationResult:
+      type: object
+      additionalProperties: false
+      required: [roomId, confirmation]
+      properties:
+        roomId:
+          type: string
+          format: uuid
+          description: 요청 대상 모임 ID
+        confirmation:
+          $ref: '#/components/schemas/Confirmation'
+    Confirmation:
+      type: object
+      additionalProperties: false
+      description: |
+        이번 작업이 새로 확정한 구간. 성공 응답에서는 NULL이 아니다.
+        startMinute + durationMinutes = endMinute,
+        availableCount <= totalCount 및 모임 시간 범위 포함 조건은 서버가 검사한다.
+      required:
+        - roomDateId
+        - localDate
+        - timezone
+        - startMinute
+        - endMinute
+        - durationMinutes
+        - availableCount
+        - totalCount
+      properties:
+        roomDateId:
+          type: string
+          format: uuid
+          description: 모임에 속한 후보 날짜 ID
+        localDate:
+          type: string
+          format: date
+          description: 모임 시간대 기준 날짜, YYYY-MM-DD
+        timezone:
+          type: string
+          minLength: 1
+          description: 모임의 IANA 시간대 이름
+          examples: [Asia/Seoul]
+        startMinute:
+          type: integer
+          minimum: 0
+          maximum: 1380
+          multipleOf: 60
+          description: 자정 이후 경과 분. 1140은 19시. 종료 경계 24시의 입력 정책은 별도 검토 중.
+        endMinute:
+          type: integer
+          minimum: 60
+          maximum: 1440
+          multipleOf: 60
+          description: 시작+소요 시간으로 계산한 종료 분
+        durationMinutes:
+          type: integer
+          minimum: 60
+          maximum: 1440
+          multipleOf: 60
+          description: DB에 저장된 주최자 설정 소요 시간
+        availableCount:
+          type: integer
+          minimum: 1
+          description: 구간 전체에 가능한 제출 참여자 수. 0명은 확정하지 않음.
+        totalCount:
+          type: integer
+          minimum: 1
+          description: 계산 시점에 submitted_at이 있는 참여자 수. 재확인 필요 참여자도 포함.
+    ApiError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: 프론트엔드가 상황을 구분하는 고정 오류 코드
+              enum:
+                - INVALID_ROOM_ID
+                - UNAUTHORIZED
+                - HOST_ONLY
+                - ROOM_NOT_FOUND
+                - ALREADY_CONFIRMED
+                - NO_RESPONSES
+                - NO_CANDIDATES
+                - NO_AVAILABLE_INTERVAL
+                - INTERNAL_ERROR
+            message:
+              type: string
+              minLength: 1
+              description: 사용자에게 보여줄 설명. 프로그램은 문구 대신 code로 분기한다.
